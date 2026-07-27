@@ -1,13 +1,26 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+
 interface Props {
   reps: number
 }
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const bouncing = ref(false)
+let timer: ReturnType<typeof setTimeout> | null = null
+
+watch(() => props.reps, () => {
+  bouncing.value = false
+  void document.body.offsetHeight
+  bouncing.value = true
+  if (timer) clearTimeout(timer)
+  timer = setTimeout(() => { bouncing.value = false }, 200)
+}, { flush: 'post' })
 </script>
 
 <template>
   <div class="counter-display" aria-live="polite" aria-atomic="true">
-    <span class="counter-num" :key="reps">{{ reps }}</span>
+    <span class="counter-num" :class="{ bouncing }">{{ reps }}</span>
   </div>
 </template>
 
@@ -17,6 +30,7 @@ defineProps<Props>()
   align-items: center;
   justify-content: center;
   width: 100%;
+  overflow: hidden;
 }
 .counter-num {
   font-family: var(--font-display);
@@ -26,11 +40,14 @@ defineProps<Props>()
   color: var(--color-text);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-  animation: pop var(--duration-bounce) var(--ease-bounce) both;
+  min-width: 0.5em;
+}
+.counter-num.bouncing {
+  animation: pop 180ms var(--ease-bounce) both;
 }
 @keyframes pop {
-  0% { transform: scale(0.85); opacity: 0.6; }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); opacity: 1; }
+  0%   { transform: scale(0.9); }
+  50%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
 }
 </style>
