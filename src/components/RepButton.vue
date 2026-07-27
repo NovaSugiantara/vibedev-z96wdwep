@@ -1,15 +1,35 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 interface Props {
   onTap: () => void
 }
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const bouncing = ref(false)
+let bounceTimer: ReturnType<typeof setTimeout> | null = null
+
+function handleTap() {
+  props.onTap()
+
+  // restart bounce animation cleanly on rapid taps
+  bouncing.value = false
+  void document.body.offsetHeight // force reflow
+  bouncing.value = true
+
+  if (bounceTimer) clearTimeout(bounceTimer)
+  bounceTimer = setTimeout(() => {
+    bouncing.value = false
+  }, 200)
+}
 </script>
 
 <template>
   <button
     type="button"
     class="rep-button"
-    @click="onTap"
+    :class="{ bouncing }"
+    @click="handleTap"
     aria-label="Add rep"
   >
     <span class="rep-button-label">Tap</span>
@@ -32,20 +52,23 @@ defineProps<Props>()
   cursor: pointer;
   box-shadow: 0 8px 32px var(--color-accent-shadow),
               inset 0 -4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform var(--duration-bounce) var(--ease-bounce),
-              box-shadow var(--duration-fast) var(--ease-out);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
 }
-.rep-button:active {
-  transform: scale(0.94);
-  box-shadow: 0 2px 8px var(--color-accent-shadow),
-              inset 0 -2px 6px rgba(0, 0, 0, 0.2);
-}
 .rep-button:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 4px;
+}
+/* bounce animation — 0.9 → 1.05 → 1 over 180ms */
+.rep-button.bouncing {
+  animation: repBounce 180ms var(--ease-bounce) both;
+}
+@keyframes repBounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.9); }
+  65%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 .rep-button-label {
   font-family: var(--font-display);
