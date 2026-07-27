@@ -1,81 +1,51 @@
 <script setup lang="ts">
-interface Props {
-  onDone: () => void
-  onReset: () => void
-}
-defineProps<Props>()
+defineProps<{ onDone: () => void; onReset: () => void }>()
 </script>
 
 <template>
-  <div class="controls-bar">
-    <button
-      type="button"
-      class="btn btn-reset"
-      @click="onReset"
-    >
-      Reset
-    </button>
-    <button
-      type="button"
-      class="btn btn-done"
-      @click="onDone"
-    >
-      Done
-    </button>
+  <div class="bar">
+    <button type="button" class="btn reset" @click="onReset">Reset</button>
+    <button type="button" class="btn done" @click="onDone">Done</button>
   </div>
 </template>
 
 <style scoped>
-.controls-bar {
+.bar {
   display: flex;
-  gap: var(--space-4);
+  gap: 16px;
   width: 100%;
   max-width: 320px;
-  margin: 0 auto;
 }
 .btn {
   flex: 1;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-3) var(--space-6);
+  padding: 12px 24px;
   font-family: var(--font-body);
-  font-size: var(--text-base);
+  font-size: 1rem;
   font-weight: 600;
-  border-radius: var(--radius-xl);
-  border: none;
+  border-radius: 16px;
   cursor: pointer;
-  transition: transform var(--duration-fast) var(--ease-out),
-              box-shadow var(--duration-fast) var(--ease-out),
-              background var(--duration-fast) var(--ease-out);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
-  min-height: 48px;
+  transition: transform .1s, background .1s, box-shadow .1s;
 }
-.btn:focus-visible {
-  outline: 3px solid var(--color-focus);
-  outline-offset: 3px;
+.btn:focus-visible { outline: 3px solid #3b82f6; outline-offset: 3px; }
+.btn:active { transform: scale(.96); }
+.reset {
+  background: var(--surface);
+  color: var(--muted);
+  border: 1.5px solid var(--border);
 }
-.btn:active {
-  transform: scale(0.96);
+.reset:hover { background: var(--border); color: var(--text); }
+.done {
+  background: var(--done);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px var(--done-glow);
 }
-.btn-reset {
-  background: var(--color-surface);
-  color: var(--color-text-muted);
-  border: 1.5px solid var(--color-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-.btn-reset:hover {
-  background: var(--color-border);
-  color: var(--color-text);
-}
-.btn-done {
-  background: var(--color-done);
-  color: var(--color-done-text);
-  box-shadow: 0 2px 8px var(--color-done-shadow);
-}
-.btn-done:hover {
-  background: var(--color-done-hover);
-}
+.done:hover { background: var(--done-hover); }
 </style>

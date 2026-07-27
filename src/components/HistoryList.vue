@@ -1,74 +1,40 @@
 <script setup lang="ts">
 import type { WorkoutSet } from '../types/workout'
 import HistoryRow from './HistoryRow.vue'
-
-interface Props {
-  history: WorkoutSet[]
-  onDelete: (id: number) => void
-}
-defineProps<Props>()
+defineProps<{ history: WorkoutSet[]; onDelete: (id: number) => void }>()
 </script>
 
 <template>
-  <section class="history-section">
-    <h2 class="history-title">History</h2>
-    <ul v-if="history.length > 0" class="history-list">
-      <HistoryRow
-        v-for="set in history"
-        :key="set.id"
-        :set="set"
-        :onDelete="onDelete"
-      />
+  <section class="section">
+    <h2 class="title">History</h2>
+    <ul v-if="history.length" class="list">
+      <HistoryRow v-for="s in history" :key="s.id" :set="s" :on-delete="onDelete" />
     </ul>
-    <div v-else class="history-empty">
-      <p class="empty-text">No sets logged yet</p>
-      <p class="empty-hint">Tap Done after a set to save it here</p>
+    <div v-else class="empty">
+      <p class="e1">No sets logged yet</p>
+      <p class="e2">Tap Done after a set to save it here</p>
     </div>
   </section>
 </template>
 
 <style scoped>
-.history-section {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-.history-title {
+.section { width: 100%; max-width: 400px; margin: 0 auto; }
+.title {
+  margin-bottom: 12px;
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: .75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-3);
-  padding: 0 var(--space-1);
+  letter-spacing: .08em;
+  color: var(--muted);
 }
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.history-empty {
+.list { display: flex; flex-direction: column; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.empty {
   text-align: center;
-  padding: var(--space-8) var(--space-4);
-  border: 1.5px dashed var(--color-border);
-  border-radius: var(--radius-xl);
+  padding: 32px 16px;
+  border: 2px dashed var(--border);
+  border-radius: 16px;
 }
-.empty-text {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin: 0 0 var(--space-1);
-}
-.empty-hint {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  opacity: 0.7;
-  margin: 0;
-}
+.e1 { font-size: 1rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
+.e2 { font-size: .875rem; color: var(--muted); opacity: .7; }
 </style>
