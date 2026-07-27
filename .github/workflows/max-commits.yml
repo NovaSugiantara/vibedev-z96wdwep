@@ -1,0 +1,61 @@
+name: Commit Size Guard
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+
+jobs:
+  check-commit-size:
+    runs-on: ubuntu-latest
+
+    env:
+      MAX_COMMIT_SIZE: 20480 # 20 KB
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate commit sizes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+            COMMITS=$(git rev-list --reverse "$BASE..$HEAD")
+          else
+            BEFORE="${{ github.event.before }}"
+            AFTER="${{ github.sha }}"
+
+            if [[ "$BEFORE" == "0000000000000000000000000000000000000000" ]]; then
+              COMMITS="$AFTER"
+            else
+              COMMITS=$(git rev-list --reverse "$BEFORE..$AFTER")
+            fi
+          fi
+
+          FAILED=0
+
+          for COMMIT in $COMMITS; do
+            SIZE=$(git show --format= --unified=0 "$COMMIT" | wc -c | tr -d ' ')
+
+            echo ""
+            echo "Commit: $COMMIT"
+            echo "Patch size: ${SIZE} bytes"
+
+            if [ "$SIZE" -gt "$MAX_COMMIT_SIZE" ]; then
+              echo "::error::Commit $COMMIT exceeds the maximum allowed size (${MAX_COMMIT_SIZE} bytes). Current size: ${SIZE} bytes."
+              FAILED=1
+            fi
+          done
+
+          if [ "$FAILED" -eq 1 ]; then
+            exit 1
+          fi
+
+          echo "✅ All commits are within the 20 KB limit."
