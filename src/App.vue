@@ -5,6 +5,7 @@ import CounterDisplay from './components/CounterDisplay.vue'
 import RepButton from './components/RepButton.vue'
 import ControlsBar from './components/ControlsBar.vue'
 import HistoryList from './components/HistoryList.vue'
+import './style.css'
 
 const { exercise, currentReps, history, resetting, addRep, resetCounter, finishSet, deleteSet } =
   useWorkoutSession()
