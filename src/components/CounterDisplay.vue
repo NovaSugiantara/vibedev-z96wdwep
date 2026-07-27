@@ -15,7 +15,7 @@ watch(() => props.reps, () => {
   bouncing.value = true
   if (timer) clearTimeout(timer)
   timer = setTimeout(() => { bouncing.value = false }, 200)
-}, { flush: 'post' })
+}, { flush: 'sync' })
 </script>
 
 <template>
