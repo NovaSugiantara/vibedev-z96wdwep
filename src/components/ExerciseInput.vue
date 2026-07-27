@@ -1,60 +1,31 @@
 <script setup lang="ts">
-interface Props {
-  modelValue: string
-}
-const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
-const props = defineProps<Props>()
-
-function onInput(e: Event) {
-  const target = e.target as HTMLInputElement
-  emit('update:modelValue', target.value)
-}
+defineProps<{ modelValue: string }>()
+const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 </script>
 
 <template>
-  <div class="exercise-input-wrap">
-    <label for="exercise-name" class="sr-only">Exercise name</label>
-    <input
-      id="exercise-name"
-      type="text"
-      class="exercise-input"
-      :value="modelValue"
-      @input="onInput"
-      placeholder="Exercise name"
-      autocomplete="off"
-      spellcheck="false"
-    />
-  </div>
+  <label class="sr-only" for="n">Exercise name</label>
+  <input id="n" type="text" class="input"
+    :value="modelValue"
+    @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    placeholder="Exercise name" autocomplete="off" spellcheck="false" />
 </template>
 
 <style scoped>
-.exercise-input-wrap {
-  width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
-}
-.exercise-input {
-  width: 100%;
-  padding: var(--space-3) var(--space-4);
+.input {
+  width: 280px;
+  max-width: 100%;
+  padding: 10px 16px;
   font-family: var(--font-body);
-  font-size: var(--text-base);
+  font-size: 1rem;
   font-weight: 500;
-  color: var(--color-text);
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  color: var(--text);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
   outline: none;
-  transition: border-color var(--duration-fast) var(--ease-out),
-              box-shadow var(--duration-fast) var(--ease-out);
+  transition: border-color .12s, box-shadow .12s;
 }
-.exercise-input::placeholder {
-  color: var(--color-text-muted);
-  font-weight: 400;
-}
-.exercise-input:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-glow);
-}
+.input::placeholder { color: var(--muted); font-weight: 400; }
+.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 </style>

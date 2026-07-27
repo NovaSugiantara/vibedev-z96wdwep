@@ -1,53 +1,40 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-interface Props {
-  reps: number
-}
-const props = defineProps<Props>()
-
-const bouncing = ref(false)
+const props = defineProps<{ reps: number }>()
+const bounce = ref(false)
 let timer: ReturnType<typeof setTimeout> | null = null
 
 watch(() => props.reps, () => {
-  bouncing.value = false
+  bounce.value = false
   void document.body.offsetHeight
-  bouncing.value = true
+  bounce.value = true
   if (timer) clearTimeout(timer)
-  timer = setTimeout(() => { bouncing.value = false }, 200)
+  timer = setTimeout(() => (bounce.value = false), 200)
 }, { flush: 'sync' })
 </script>
 
 <template>
-  <div class="counter-display" aria-live="polite" aria-atomic="true">
-    <span class="counter-num" :class="{ bouncing }">{{ reps }}</span>
+  <div aria-live="polite" aria-atomic="true" class="wrap">
+    <span class="num" :class="{ _: bounce }">{{ reps }}</span>
   </div>
 </template>
 
 <style scoped>
-.counter-display {
+.wrap {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 100%;
   overflow: hidden;
 }
-.counter-num {
+.num {
   font-family: var(--font-display);
   font-size: clamp(4rem, 20vw, 8rem);
   font-weight: 800;
   line-height: 1;
-  color: var(--color-text);
-  letter-spacing: -0.03em;
+  letter-spacing: -.03em;
   font-variant-numeric: tabular-nums;
-  min-width: 0.5em;
 }
-.counter-num.bouncing {
-  animation: pop 180ms var(--ease-bounce) both;
-}
-@keyframes pop {
-  0%   { transform: scale(0.9); }
-  50%  { transform: scale(1.06); }
-  100% { transform: scale(1); }
-}
+._ { animation: pop-in .18s cubic-bezier(.34,1.56,.64,1) both; }
 </style>

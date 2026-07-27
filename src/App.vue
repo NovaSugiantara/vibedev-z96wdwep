@@ -6,79 +6,51 @@ import RepButton from './components/RepButton.vue'
 import ControlsBar from './components/ControlsBar.vue'
 import HistoryList from './components/HistoryList.vue'
 
-const {
-  exercise,
-  currentReps,
-  history,
-  addRep,
-  resetCounter,
-  finishSet,
-  deleteSet,
-} = useWorkoutSession()
+const { exercise, currentReps, history, addRep, resetCounter, finishSet, deleteSet } =
+  useWorkoutSession()
 </script>
 
 <template>
-  <div class="app-shell">
-    <header class="app-header">
+  <div class="shell">
+    <header class="header">
       <ExerciseInput v-model="exercise" />
     </header>
 
-    <main class="app-main">
-      <div class="counter-area">
-        <CounterDisplay :reps="currentReps" />
-        <RepButton :onTap="addRep" />
-      </div>
-
-      <ControlsBar
-        :onDone="finishSet"
-        :onReset="resetCounter"
-      />
+    <main class="main">
+      <CounterDisplay :reps="currentReps" />
+      <RepButton :on-tap="addRep" />
+      <ControlsBar :on-done="finishSet" :on-reset="resetCounter" />
     </main>
 
-    <aside class="app-history">
-      <HistoryList
-        :history="history"
-        :onDelete="deleteSet"
-      />
+    <aside class="history">
+      <HistoryList :history="history" :on-delete="deleteSet" />
     </aside>
   </div>
 </template>
 
 <style scoped>
-.app-shell {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
+.shell {
   max-width: 480px;
   margin: 0 auto;
-  padding: var(--space-5) var(--space-4) var(--space-8);
-  gap: var(--space-6);
+  padding: 20px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100dvh;
 }
-
-.app-header {
+.header {
   display: flex;
   justify-content: center;
-  padding: var(--space-2) 0;
+  padding: 8px 0;
 }
-
-.app-main {
+.main {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-5);
-  flex: 1 0 auto;
+  gap: 24px;
 }
-
-.counter-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-  width: 100%;
-}
-
-.app-history {
-  flex: 0 1 auto;
-  padding-top: var(--space-2);
+.history {
+  padding-top: 8px;
 }
 </style>
