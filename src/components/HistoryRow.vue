@@ -13,7 +13,7 @@ defineProps<{ set: WorkoutSet; onDelete: (id: number) => void }>()
       </div>
     </div>
     <button type="button" class="del" @click.stop="onDelete(set.id)" aria-label="Delete set">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
       </svg>
     </button>
@@ -24,8 +24,8 @@ defineProps<{ set: WorkoutSet; onDelete: (id: number) => void }>()
 .row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
+  gap: 12px;
+  padding: 11px 14px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -33,7 +33,7 @@ defineProps<{ set: WorkoutSet; onDelete: (id: number) => void }>()
 .info { flex: 1; min-width: 0; }
 .name {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: .9375rem;
   font-weight: 600;
   color: var(--text);
   white-space: nowrap;
@@ -43,28 +43,28 @@ defineProps<{ set: WorkoutSet; onDelete: (id: number) => void }>()
 .meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 10px;
+  margin-top: 3px;
   font-family: var(--font-mono);
-  font-size: .875rem;
+  font-size: .8125rem;
 }
-.reps { font-weight: 700; color: var(--accent); }
+.reps { font-weight: 700; color: var(--accent); letter-spacing: .01em; }
 .time { color: var(--muted); }
 .del {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   background: transparent;
   color: var(--danger);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background .1s, border-color .1s;
+  transition: background .12s, border-color .12s, transform .1s;
 }
-.del:hover { background: rgba(209,67,67,.1); border-color: rgba(209,67,67,.25); }
-.del:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
-.del:active { transform: scale(.95); }
+.del:hover { background: rgba(209,67,67,.08); border-color: rgba(209,67,67,.2); }
+.del:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.del:active { transform: scale(.92); }
 </style>

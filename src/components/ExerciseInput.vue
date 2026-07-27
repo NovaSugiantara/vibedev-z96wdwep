@@ -5,10 +5,16 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 
 <template>
   <label class="sr-only" for="n">Exercise name</label>
-  <input id="n" type="text" class="input"
+  <input
+    id="n"
+    type="text"
+    class="input"
     :value="modelValue"
     @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-    placeholder="Exercise name" autocomplete="off" spellcheck="false" />
+    placeholder="Push-ups, squats, pull-ups..."
+    autocomplete="off"
+    spellcheck="false"
+  />
 </template>
 
 <style scoped>
@@ -17,15 +23,23 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
   max-width: 100%;
   padding: 10px 16px;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: .9375rem;
   font-weight: 500;
   color: var(--text);
   background: var(--surface);
   border: 1.5px solid var(--border);
-  border-radius: 16px;
+  border-radius: 14px;
   outline: none;
-  transition: border-color .12s, box-shadow .12s;
+  text-align: center;
+  transition: border-color .15s, box-shadow .15s;
 }
-.input::placeholder { color: var(--muted); font-weight: 400; }
-.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.input::placeholder {
+  color: var(--muted);
+  font-weight: 400;
+  opacity: .7;
+}
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
 </style>

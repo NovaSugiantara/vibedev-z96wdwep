@@ -5,9 +5,8 @@ import CounterDisplay from './components/CounterDisplay.vue'
 import RepButton from './components/RepButton.vue'
 import ControlsBar from './components/ControlsBar.vue'
 import HistoryList from './components/HistoryList.vue'
-import './style.css'
 
-const { exercise, currentReps, history, addRep, resetCounter, finishSet, deleteSet } =
+const { exercise, currentReps, history, resetting, addRep, resetCounter, finishSet, deleteSet } =
   useWorkoutSession()
 </script>
 
@@ -18,7 +17,7 @@ const { exercise, currentReps, history, addRep, resetCounter, finishSet, deleteS
     </header>
 
     <main class="main">
-      <CounterDisplay :reps="currentReps" />
+      <CounterDisplay :reps="currentReps" :resetting="resetting" />
       <RepButton :on-tap="addRep" />
       <ControlsBar :on-done="finishSet" :on-reset="resetCounter" />
     </main>
@@ -33,7 +32,7 @@ const { exercise, currentReps, history, addRep, resetCounter, finishSet, deleteS
 .shell {
   max-width: 480px;
   margin: 0 auto;
-  padding: 20px 16px 32px;
+  padding: 24px 20px 32px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -42,16 +41,15 @@ const { exercise, currentReps, history, addRep, resetCounter, finishSet, deleteS
 .header {
   display: flex;
   justify-content: center;
-  padding: 8px 0;
 }
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 .history {
-  padding-top: 8px;
+  padding-top: 4px;
 }
 </style>

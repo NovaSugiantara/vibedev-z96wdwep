@@ -6,6 +6,8 @@ export function useWorkoutSession() {
   const exercise = ref('')
   const currentReps = ref(0)
   const history = ref<WorkoutSet[]>([])
+  const resetting = ref(false)
+  let resetTimer: ReturnType<typeof setTimeout> | null = null
 
   onMounted(() => {
     history.value = loadHistory()
@@ -17,6 +19,10 @@ export function useWorkoutSession() {
 
   function resetCounter(): void {
     currentReps.value = 0
+    // trigger reset flash
+    resetting.value = true
+    if (resetTimer) clearTimeout(resetTimer)
+    resetTimer = setTimeout(() => (resetting.value = false), 400)
   }
 
   function finishSet(): void {
@@ -41,6 +47,7 @@ export function useWorkoutSession() {
     exercise,
     currentReps,
     history,
+    resetting,
     addRep,
     resetCounter,
     finishSet,
