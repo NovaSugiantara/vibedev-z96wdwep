@@ -17,7 +17,8 @@ export function loadHistory(): WorkoutSet[] {
         typeof (item as Record<string, unknown>).reps === 'number' &&
         typeof (item as Record<string, unknown>).timestamp === 'string',
     ) as WorkoutSet[]
-  } catch {
+  } catch (e) {
+    console.warn('loadHistory: localStorage read failed', e)
     return []
   }
 }
@@ -25,7 +26,7 @@ export function loadHistory(): WorkoutSet[] {
 export function saveHistory(history: WorkoutSet[]): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history))
-  } catch {
-    // private browsing / full storage — silently degrade
+  } catch (e) {
+    console.warn('saveHistory: localStorage write failed', e)
   }
 }

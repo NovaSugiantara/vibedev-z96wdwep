@@ -53,4 +53,11 @@ const { exercise, currentReps, history, resetting, addRep, resetCounter, finishS
 .history {
   padding-top: 4px;
 }
+
+@media (max-width: 380px) {
+  .shell {
+    padding: 16px 12px 24px;
+    gap: 14px;
+  }
+}
 </style>

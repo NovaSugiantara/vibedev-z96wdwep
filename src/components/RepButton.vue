@@ -19,7 +19,7 @@ function handleTap() {
   <button
     type="button"
     class="btn"
-    :class="{ _: bounce }"
+    :class="{ animate: bounce }"
     @click="handleTap"
     aria-label="Add rep"
   >
@@ -59,7 +59,7 @@ function handleTap() {
   transform: scale(.96);
   box-shadow: 0 2px 8px var(--accent-shadow), inset 0 -2px 6px rgba(0,0,0,.2);
 }
-._ { animation: pulse-in .18s cubic-bezier(.34,1.56,.64,1) both; }
+.animate { animation: pulse-in .18s cubic-bezier(.34,1.56,.64,1) both; }
 .lbl {
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 7vw, 2.75rem);

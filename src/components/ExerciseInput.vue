@@ -12,6 +12,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
     :value="modelValue"
     @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     placeholder="Push-ups, squats, pull-ups..."
+    maxlength="100"
     autocomplete="off"
     spellcheck="false"
   />
